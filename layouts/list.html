@@ -1,0 +1,17 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col" class="w-75">ID</th>
+        <th class="text-center">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr  ng-repeat="(_, client) in clients track by client.id">
+        <th scope="row">{{client.id}}</th>
+        <td class="text-center">
+            <a class="btn btn-sm btn-secondary mr-2" href="#!view/{{client.id}}">View</a>
+            <a class="btn btn-sm btn-primary" href="#!edit/{{client.id}}">Edit</a>
+        </td>
+    </tr>
+    </tbody>
+</table>

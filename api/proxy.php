@@ -1,4 +1,5 @@
 <?php
+
 require './token.php';
 $token = getToken();
 
@@ -6,8 +7,6 @@ $encodedToken = base64_encode("test_api:$token");
 $authStr =  "Basic {$encodedToken}";
 $clientId = isset($_GET['client_id']) ? $_GET['client_id'] : '';
 $requestMethod = $_SERVER['REQUEST_METHOD'];
-
-var_dump($authStr);
 
 $command = <<<COMMAND
 curl --location 'https://evaluation-technique.lundimatin.biz/api/clients/$clientId' \
