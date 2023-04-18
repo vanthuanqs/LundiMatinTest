@@ -6,10 +6,11 @@ $token = getToken();
 $encodedToken = base64_encode(":$token");
 $authStr =  "Basic {$encodedToken}";
 $clientId = isset($_GET['id']) ? $_GET['id'] : '';
+$search = isset($_GET['search']) ? $_GET['search'] : '';
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 
 $command = <<<COMMAND
-curl --location 'https://evaluation-technique.lundimatin.biz/api/clients/$clientId' \
+curl --location 'https://evaluation-technique.lundimatin.biz/api/clients/$clientId?nom=$search' \
 --request $requestMethod \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/api.rest-v1+json' \
@@ -22,7 +23,7 @@ if (in_array($requestMethod, ['POST', 'PUT'])) {
     $data = str_replace("'", "\\'", $data);
     $command .= " --data-raw \"$data\"  ";
 }
-var_dump($command);
+
 $result = exec($command, $output);
 
 $json = json_decode($result);

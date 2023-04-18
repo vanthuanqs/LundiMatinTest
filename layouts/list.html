@@ -1,3 +1,9 @@
+<form class="my-4">
+    <label>Search</label>
+    <input type="text" class="form-control" ng-model="filter.name">
+    {{filter.name}}
+    <button  ng-click="load()" class="btn btn-primary">Search</button>
+</form>
 <table class="table">
     <thead>
     <tr>

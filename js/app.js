@@ -14,6 +14,8 @@ app.config(function ($routeProvider) {
 });
 
 app.controller('ClientController', function ($scope, $http) {
+    $scope.filter = { name: ''};
+
     $scope.fields = {
         "id": "ID",
         "nom": "Name",
@@ -31,8 +33,9 @@ app.controller('ClientController', function ($scope, $http) {
     ];
 
     $scope.load = function () {
+        console.log($scope.filter.name);
         $scope.clients = [];
-        $http.get(`/api/proxy.php`).then(function (response) {
+        $http.get(`/api/proxy.php?search=${$scope.filter.name}`).then(function (response) {
             $scope.clients = response.data.datas;
         });
     }
@@ -54,7 +57,14 @@ app.controller('EditClientController', function ($scope, $http, $routeParams, $l
     });
 
     $scope.update = function () {
-        $http.put(`/api/proxy.php?id=${$routeParams.id}`, $scope.client).then(function () {
+        const data = Object.entries($scope.client).reduce(function(prev, [ key, value]) {
+            if ($scope.editableFields.includes(key)) {
+                prev[key] = value;
+            }
+            return prev;
+        }, {});
+
+        $http.put(`/api/proxy.php?id=${$routeParams.id}`, data).then(function () {
             $scope.load();
             $location.path('/');
         });
