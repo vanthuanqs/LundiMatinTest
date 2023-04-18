@@ -12,12 +12,15 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.js"></script>
-    <script src="/js/client-service.js"></script>
     <script src="/js/app.js"></script>
 </head>
 <body>
 
 <div ng-app="LundiMatinTest" ng-controller="ClientController">
+    <a class="btn btn-secondary btn-md" href="#">
+        Home
+    </a>
+
     <ng-view></ng-view>
 </div>
 

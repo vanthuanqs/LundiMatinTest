@@ -13,7 +13,7 @@ app.config(function ($routeProvider) {
         });
 });
 
-app.controller('ClientController', function ($scope) {
+app.controller('ClientController', function ($scope, $http) {
     $scope.fields = {
         "id": "ID",
         "nom": "Name",
@@ -30,30 +30,33 @@ app.controller('ClientController', function ($scope) {
         'adresse', 'code_postal', 'ville'
     ];
 
-    $scope.clients = [
-        {"id": "C-00003"},
-        {"id": "C-00004"}
-    ];
+    $scope.load = function () {
+        $scope.clients = [];
+        $http.get(`/api/proxy.php`).then(function (response) {
+            $scope.clients = response.data.datas;
+        });
+    }
+
+    $scope.load();
 });
 
-app.controller('ViewClientController', function ($scope, $routeParams) {
-    console.log($routeParams);
+app.controller('ViewClientController', function ($scope, $http, $routeParams) {
     $scope.client = {};
-    $http.get(`/api/proxy.php/${$routeParams.id}`).then(function (response) {
-        $scope.client = response.data;
+    $http.get(`/api/proxy.php?id=${$routeParams.id}`).then(function (response) {
+        $scope.client = response.data.datas;
     });
 });
 
-app.controller('EditClientController', function ($scope, $routeParams) {
-    console.log($routeParams);
-    $scope.client = {
-        "id": "C-00003",
-        "nom": "Matliu 3 v7",
-        "date_creation": "2015-12-11 08:40:44",
-        "email": "1ahmed.biaou@example.com",
-        "tel": "12345",
-        "adresse": "11519 avenue villeneuve d'angouleme",
-        "code_postal": "34070",
-        "ville": "Bézier"
-    };
+app.controller('EditClientController', function ($scope, $http, $routeParams, $location) {
+    $scope.client = {};
+    $http.get(`/api/proxy.php?id=${$routeParams.id}`).then(function (response) {
+        $scope.client = response.data.datas;
+    });
+
+    $scope.update = function () {
+        $http.put(`/api/proxy.php?id=${$routeParams.id}`, $scope.client).then(function () {
+            $scope.load();
+            $location.path('/');
+        });
+    }
 });

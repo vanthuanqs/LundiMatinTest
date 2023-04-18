@@ -3,9 +3,9 @@
 require './token.php';
 $token = getToken();
 
-$encodedToken = base64_encode("test_api:$token");
+$encodedToken = base64_encode(":$token");
 $authStr =  "Basic {$encodedToken}";
-$clientId = isset($_GET['client_id']) ? $_GET['client_id'] : '';
+$clientId = isset($_GET['id']) ? $_GET['id'] : '';
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 
 $command = <<<COMMAND
@@ -20,9 +20,9 @@ if (in_array($requestMethod, ['POST', 'PUT'])) {
     $data = json_encode(json_decode(file_get_contents('php://input')));
     $data = str_replace('"', '\"', $data);
     $data = str_replace("'", "\\'", $data);
-    $command .= ' --data-raw "$data"     ';
+    $command .= " --data-raw \"$data\"  ";
 }
-
+var_dump($command);
 $result = exec($command, $output);
 
 $json = json_decode($result);

@@ -1,13 +1,18 @@
 <div ng-controller="ViewClientController">
-    <a class="btn btn-primary btn-large" href="#">
-        Back
-    </a>
-    <table class="table table-borderless table-sm">
-        <tr ng-repeat="(field, fieldName) in fields">
-            <th class="text-right p-0">
-                <span class="mr-2">{{fieldName}}</span>
-            </th>
-            <td class="text-left p-0">{{client[field]}}</td>
-        </tr>
-    </table>
+    <div ng-if="client.id">
+        <table class="table table-borderless">
+            <tr ng-repeat="(field, fieldName) in fields">
+                <th class="text-right p-1 w-50">
+                    <span class="mr-2">{{fieldName}}</span>
+                </th>
+                <td class="text-left p-1 w-50">{{client[field]}}</td>
+            </tr>
+
+            <tr>
+                <td colspan="2" class="mx-4 text-center">
+                    <a href="#!/edit/{{client.id}}" class="btn btn-primary btn-lg">Edit</a>
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>
